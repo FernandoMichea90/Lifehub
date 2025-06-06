@@ -1,0 +1,35 @@
+# Entornos virtuales
+venv/
+ENV/
+.env
+
+# Archivos de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de configuración locales
+*.env
+
+# Datos de la base de datos
+mariadb-data/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de logs
+yarn-debug.log*
+npm-debug.log*
+*.log
+
+# Archivos de compilación
+/build/
+/dist/
+
+# Archivos de Tailwind generados
+frontend/styles.css
+
+# Otros
+*.sqlite3 
