@@ -1,9 +1,13 @@
 from sqlalchemy.orm import Session
 from app import models, schemas
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 
 def get_saldos(db: Session):
     return db.query(models.SaldoBancario).order_by(models.SaldoBancario.fecha).all()
+
+def get_saldos_desc(db: Session):
+    return db.query(models.SaldoBancario).order_by(models.SaldoBancario.fecha.desc()).all()
 
 def get_saldo_by_fecha(db: Session, fecha):
     return db.query(models.SaldoBancario).filter(models.SaldoBancario.fecha == fecha).first()
@@ -32,4 +36,10 @@ def delete_saldo(db: Session, fecha):
     if db_saldo:
         db.delete(db_saldo)
         db.commit()
-    return db_saldo 
+    return db_saldo
+
+def get_promedio_saldos(db: Session):
+    return db.query(func.avg(models.SaldoBancario.monto)).scalar() or 0
+
+def get_ultimo_registro_saldos(db: Session):
+    return db.query(models.SaldoBancario).order_by(models.SaldoBancario.fecha.desc()).first() 

@@ -9,16 +9,49 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-blue-900 text-white py-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center px-4">
-            <h1 class="text-2xl font-bold tracking-wide">Lifehub Dashboard</h1>
-            <span class="text-sm">by Fernando Michea</span>
-        </div>
-    </header>
+    <!-- Header Container -->
+    <div id="header-container"></div>
 
     <!-- Main Dashboard -->
     <main class="flex-1 container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4 text-blue-800">Saldo Bancario</h2>
+                <div class="space-y-2">
+                    <!-- <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Promedio:</span>
+                        <span class="text-lg font-semibold" id="promedio-saldos">$0.00</span>
+                    </div> -->
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Último registro:</span>
+                        <span class="text-lg font-semibold" id="ultimo-saldos">$0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4 text-blue-800">Promedio de Calorías</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Promedio:</span>
+                        <span class="text-lg font-semibold" id="promedio-calorias">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Último registro:</span>
+                        <span class="text-lg font-semibold" id="ultimo-calorias">0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-xl font-semibold mb-4 text-blue-800">Resumen</h2>
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">Última actualización:</span>
+                        <span class="text-lg font-semibold" id="ultima-actualizacion">-</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="bg-white rounded-lg shadow p-6">
                 <h2 class="text-xl font-semibold mb-4 text-blue-800">Saldo Bancario</h2>
@@ -31,13 +64,10 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-blue-900 text-white py-4 mt-8">
-        <div class="container mx-auto text-center text-sm">
-            &copy; 2024 Lifehub. Todos los derechos reservados.
-        </div>
-    </footer>
+    <!-- Footer Container -->
+    <div id="footer-container"></div>
 
+    <script src="js/include.js"></script>
     <script src="app.js"></script>
 </body>
 </html> 

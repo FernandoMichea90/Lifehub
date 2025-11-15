@@ -1,13 +1,23 @@
 // Configura aquí la URL de tu backend
 const API_URL = "/api";  // Ahora usamos el proxy de Nginx
 
-// Aquí irá la lógica de la aplicación frontend 
-
 // Función para formatear fechas al formato corto (ej: 30-may)
 function formatFecha(fechaStr) {
+    console.log(fechaStr);
     const meses = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
-    const fecha = new Date(fechaStr);
+    // Aseguramos que la fecha se interprete en la zona horaria local
+    const [year, month, day] = fechaStr.split('-').map(Number);
+    const fecha = new Date(year, month - 1, day);
+    console.log(`fecha: ${fecha.getDate().toString().padStart(2, '0')}-${meses[fecha.getMonth()]}`);
     return `${fecha.getDate().toString().padStart(2, '0')}-${meses[fecha.getMonth()]}`;
+}
+
+// Función para formatear moneda
+function formatMoneda(valor) {
+    return new Intl.NumberFormat('es-CL', {
+        style: 'currency',
+        currency: 'CLP'
+    }).format(valor);
 }
 
 async function fetchSaldos() {
@@ -18,6 +28,37 @@ async function fetchSaldos() {
 async function fetchCalorias() {
     const res = await fetch(`${API_URL}/calorias/`);
     return await res.json();
+}
+
+async function fetchDashboard() {
+    const res = await fetch(`${API_URL}/dashboard/resumen`);
+    return await res.json();
+}
+
+async function actualizarResumen() {
+    try {
+        const resumen = await fetchDashboard();
+        
+        // Actualizar saldos
+        // document.getElementById('promedio-saldos').textContent = formatMoneda(resumen.saldos.promedio);
+        if (resumen.saldos.ultimo_registro) {
+            document.getElementById('ultimo-saldos').textContent = formatMoneda(resumen.saldos.ultimo_registro.monto);
+        }
+        
+        // Actualizar calorías
+        document.getElementById('promedio-calorias').textContent = Math.round(resumen.calorias.promedio);
+        if (resumen.calorias.ultimo_registro) {
+            document.getElementById('ultimo-calorias').textContent = resumen.calorias.ultimo_registro.calorias;
+        }
+        
+        // Actualizar última actualización
+        const ultimaFecha = resumen.saldos.ultimo_registro?.fecha || resumen.calorias.ultimo_registro?.fecha;
+        if (ultimaFecha) {
+            document.getElementById('ultima-actualizacion').textContent = formatFecha(ultimaFecha);
+        }
+    } catch (error) {
+        console.error('Error al cargar el resumen:', error);
+    }
 }
 
 async function renderCharts() {
@@ -80,4 +121,7 @@ async function renderCharts() {
     });
 }
 
-window.addEventListener('DOMContentLoaded', renderCharts); 
+window.addEventListener('DOMContentLoaded', () => {
+    renderCharts();
+    actualizarResumen();
+}); 

@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.schemas import CaloriaCreate, CaloriaOut
 from app.crud.calorias import (
-    get_calorias, get_caloria_by_fecha, create_caloria, update_caloria, delete_caloria
+    get_calorias, get_caloria_by_fecha, create_caloria, update_caloria, delete_caloria, get_calorias_desc
 )
 from app.database import SessionLocal
 from typing import List
@@ -20,6 +20,10 @@ def get_db():
 @router.get("/", response_model=List[CaloriaOut])
 def listar_calorias(db: Session = Depends(get_db)):
     return get_calorias(db)
+
+@router.get("/desc", response_model=List[CaloriaOut])
+def listar_calorias_desc(db: Session = Depends(get_db)):
+    return get_calorias_desc(db)
 
 @router.get("/{fecha}", response_model=CaloriaOut)
 def obtener_caloria(fecha: str, db: Session = Depends(get_db)):

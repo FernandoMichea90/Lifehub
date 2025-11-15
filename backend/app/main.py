@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .database import engine
 from .models import Base
-from .routers import saldos, calorias
+from .routers import saldos, calorias, general
 
 app = FastAPI()
 
@@ -17,6 +17,7 @@ app.add_middleware(
 
 app.include_router(saldos.router)
 app.include_router(calorias.router)
+app.include_router(general.router)
 
 @app.on_event("startup")
 def on_startup():

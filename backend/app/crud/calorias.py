@@ -1,9 +1,13 @@
 from sqlalchemy.orm import Session
 from app import models, schemas
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 
 def get_calorias(db: Session):
     return db.query(models.Caloria).order_by(models.Caloria.fecha).all()
+
+def get_calorias_desc(db: Session):
+    return db.query(models.Caloria).order_by(models.Caloria.fecha.desc()).all()
 
 def get_caloria_by_fecha(db: Session, fecha):
     return db.query(models.Caloria).filter(models.Caloria.fecha == fecha).first()
@@ -32,4 +36,10 @@ def delete_caloria(db: Session, fecha):
     if db_caloria:
         db.delete(db_caloria)
         db.commit()
-    return db_caloria 
+    return db_caloria
+
+def get_promedio_calorias(db: Session):
+    return db.query(func.avg(models.Caloria.calorias)).scalar() or 0
+
+def get_ultimo_registro_calorias(db: Session):
+    return db.query(models.Caloria).order_by(models.Caloria.fecha.desc()).first() 
